@@ -1,9 +1,16 @@
 ﻿using System.Threading.Tasks;
 
-namespace System.Extensions.System.Threading.Tasks
+namespace System.Threading.Tasks
 {
-    internal static class TaskExtensions
+    public static class TaskExtensions
     {
+        public static Task<T> ReturnAsync<T>(this T value)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            tcs.SetResult(value);
+            return tcs.Task;
+        }
+
         public static Task Finally(this Task task, Action finallyAction)
         {
             if (task == null) throw new ArgumentNullException("task");
